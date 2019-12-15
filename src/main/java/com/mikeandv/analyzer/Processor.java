@@ -19,10 +19,10 @@ public class Processor {
 
         URL[] urls1 = new URL[args.length];
 
-        for (String s : args) {
-            File file = new File(s);
+        for (int i = 0; i< args.length; i++) {
+            File file = new File(args[i]);
             URL url = file.toURI().toURL();
-            urls1[0] = url;
+            urls1[i] = url;
         }
 
         TestClassAnalyzer tca = new TestClassAnalyzer();
