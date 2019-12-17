@@ -15,6 +15,7 @@ public class Processor {
 
         if (args.length == 0) {
             System.out.println("No jar-file a passed as parameters");
+            return;
         }
 
         URL[] urls1 = new URL[args.length];
