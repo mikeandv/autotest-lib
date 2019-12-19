@@ -65,10 +65,16 @@ public class SingleTest {
             Class expected = annotation.expected();
 
             try {
-                methodInvoke();
-                this.status = Statuses.PASSED;
-                result = true;
-
+                methodInvoke(obj);
+                //Правки по замечанию №6
+                if (expected == Throwable.class) {
+                    this.status = Statuses.PASSED;
+                    result = true;
+                } else {
+                    this.status = Statuses.FAILED;
+                    this.message = "Test " + annotation.testName() + " failed " + expected.getSimpleName() + " was expected to be thrown, but it was't ";
+                    result = false;
+                }
             } catch (Throwable e) {
 
                 if (expected == e.getCause().getClass()) {
