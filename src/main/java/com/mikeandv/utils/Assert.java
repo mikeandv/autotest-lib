@@ -11,11 +11,11 @@ import java.util.Arrays;
 public class Assert {
     /**
      * Сравнивает два объекта
-     * @param expected
-     * @param actual
+     * @param expected ожидаемый результат
+     * @param actual фактический результат
      * @throws ObjectAssertException случае неравенства переданных объектов
      */
-    public void assertEquals(Object expected, Object actual) throws ObjectAssertException {
+    public static void assertEquals(Object expected, Object actual) {
         if (!actual.equals(expected)) {
             StringBuilder sb = new StringBuilder();
             sb.append("\t\t\t").append("expected: ").append(expected.toString()).append("\n");
@@ -26,11 +26,11 @@ public class Assert {
 
     /**
      * Сравнивает два массива
-     * @param expected
-     * @param actual
+     * @param expected ожидаемый результат
+     * @param actual фактический результат
      * @throws ArrayAssertException в случае неравенства переданных массивов объектов
      */
-    public void arrayAssertEquals(Object[] expected, Object[] actual) throws ArrayAssertException {
+    public static void arrayAssertEquals(Object[] expected, Object[] actual) {
         StringBuilder sb = new StringBuilder();
 
         if (actual.length != expected.length) {
