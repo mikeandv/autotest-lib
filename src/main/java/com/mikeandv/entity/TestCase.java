@@ -1,6 +1,6 @@
 package com.mikeandv.entity;
 
-import com.mikeandv.analyzer.GeneralRunner;
+import com.mikeandv.annotation.Ignore;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -86,17 +86,24 @@ public class TestCase implements GeneralRunner {
     /**
      * Выполняет запуск единичных тестов, которые аннотированы @BeforeEach и @AfterEach и единичный тест в рамках тестового кейса
      */
-    @Override
-    public void run() {
-        if (!this.beforeEach.isEmpty()) {
-            for(SingleTest t : this.beforeEach) {
-                if(!t.runTest()) {
-                    this.message = "\t\t\t" + "@BeforeEach method " + t.getMethod().getName() + t.getMessage() + "\n";
+    public void run(Object obj) {
+
+        //правки по замечанию №4
+        if (this.singleTest.getMethod().isAnnotationPresent(Ignore.class)) {
+            this.singleTest.runTest(obj);
+            this.status = Statuses.IGNORE;
+            return;
+        } else {
+
+            if (!this.beforeEach.isEmpty()) {
+                for (SingleTest t : this.beforeEach) {
+                    if (!t.runTest(obj)) {
+                        this.message = "\t\t\t" + "@BeforeEach method " + t.getMethod().getName() + t.getMessage() + "\n";
+                    }
                 }
             }
-        }
-        this.singleTest.runTest();
-        this.message = (this.singleTest.getMessage().isEmpty()) ? this.message : this.message + "\t\t\t" + this.singleTest.getMessage() + "\n";
+            this.singleTest.runTest(obj);
+            this.message = (this.singleTest.getMessage().isEmpty()) ? this.message : this.message + "\t\t\t" + this.singleTest.getMessage() + "\n";
 
 
         if (!this.afterEach.isEmpty()) {
@@ -109,9 +116,7 @@ public class TestCase implements GeneralRunner {
 
         if (this.singleTest.getStatus().equals(Statuses.IGNORE)) {
 
-            this.status = Statuses.IGNORE;
-
-        } else if (this.beforeEach
+        if (this.beforeEach
                 .stream()
                 .anyMatch(l -> l.getStatus().equals(Statuses.FAILED))
             || this.afterEach
