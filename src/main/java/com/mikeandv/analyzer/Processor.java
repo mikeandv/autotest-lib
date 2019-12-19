@@ -38,13 +38,13 @@ public class Processor {
 
             for (TestSuit suit : testSuits) {
 
-                suit.run();
+                suit.runSuit();
                 String s = suit.getMessage() + str;
                 suit.setMessage(s);
             }
-
+            //Правки по замечанию №1
+            System.out.println(str);
+            testSuits.forEach(System.out :: println);
         }
-        System.out.println(str);
-        testSuits.forEach(System.out :: println);
     }
 }
