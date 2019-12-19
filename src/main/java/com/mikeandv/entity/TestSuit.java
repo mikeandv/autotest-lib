@@ -1,22 +1,22 @@
 package com.mikeandv.entity;
 
-import com.mikeandv.analyzer.GeneralRunner;
-
 import java.util.List;
 
 /**
  * Класс класс описывающий тестовый надор
  */
-public class TestSuit implements GeneralRunner {
+public class TestSuit {
     private Statuses status;
     private String name;
     private int leadTime;
+    private Class<?> clazz;
     private List<SingleTest> setUps;
     private List<SingleTest> tearDown;
     private List<TestCase> testCases;
     private String message = "";
 
-    public TestSuit(String name) {
+    public TestSuit(String name, Class<?> clazz) {
+        this.clazz = clazz;
         this.name = name;
     }
 
@@ -92,23 +92,32 @@ public class TestSuit implements GeneralRunner {
     /**
      * Выполняет запуск единичных тестов, которые аннотированы @SetUp и @TearDown и тестовые кейсы
      */
-    @Override
-    public void run() {
+    public void runSuit() {
+
+        Object instance;
+        try {
+            instance = clazz.newInstance();
+        } catch (InstantiationException | IllegalAccessException e) {
+            this.message = this.message + "\t\t\t" + "Can not call newInstance() on the Class " + clazz.getSimpleName() + "\n";
+            this.status = Statuses.FAILED;
+            return;
+        }
+
         if (!this.setUps.isEmpty()) {
             for(SingleTest t : this.setUps) {
-                if (!t.runTest()) {
+                if (!t.runTest(instance)) {
                     this.message = this.message + "\t\t\t" + "@SetUp method " + t.getMethod().getName() + t.getMessage() + "\n";
                 }
             }
         }
 
         for (TestCase tc : testCases) {
-            tc.run();
+            tc.run(instance);
         }
 
         if (!this.tearDown.isEmpty()) {
             for(SingleTest t : this.tearDown) {
-                if (!t.runTest()) {
+                if (!t.runTest(instance)) {
                     this.message = this.message + "\t\t\t" + "@TearDown method " + t.getMethod().getName() + t.getMessage() + "\n";
                 }
             }

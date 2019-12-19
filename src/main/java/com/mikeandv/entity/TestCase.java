@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * Класс для описывающий тестовый кейс
  */
-public class TestCase implements GeneralRunner {
+public class TestCase {
     private Statuses status;
     private String name;
     private SingleTest singleTest;
@@ -106,15 +106,14 @@ public class TestCase implements GeneralRunner {
             this.message = (this.singleTest.getMessage().isEmpty()) ? this.message : this.message + "\t\t\t" + this.singleTest.getMessage() + "\n";
 
 
-        if (!this.afterEach.isEmpty()) {
-            for(SingleTest t : this.afterEach) {
-                if(!t.runTest()) {
-                    this.message = this.message + "\t\t\t" + "@AfterEach method " + t.getMethod().getName() + t.getMessage() + "\n";
+            if (!this.afterEach.isEmpty()) {
+                for (SingleTest t : this.afterEach) {
+                    if (!t.runTest(obj)) {
+                        this.message = this.message + "\t\t\t" + "@AfterEach method " + t.getMethod().getName() + t.getMessage() + "\n";
+                    }
                 }
             }
         }
-
-        if (this.singleTest.getStatus().equals(Statuses.IGNORE)) {
 
         if (this.beforeEach
                 .stream()

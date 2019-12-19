@@ -64,7 +64,7 @@ public class TestCaseAnalyzer {
                         writeError(BeforeEach.class, method, clazz);
                         return null; ///
                     }
-                    beforeEachMethods.add(new SingleTest(clazz, method));
+                    beforeEachMethods.add(new SingleTest(method));
 
                 } else if (method.isAnnotationPresent(Test.class)) {
 
@@ -72,7 +72,7 @@ public class TestCaseAnalyzer {
                         writeError(Test.class, method, clazz);
                         return null; ///
                     }
-                    singleTestMethods.add(new SingleTest(clazz, method));
+                    singleTestMethods.add(new SingleTest(method));
 
                 } else if (method.isAnnotationPresent(AfterEach.class)) {
 
@@ -80,23 +80,23 @@ public class TestCaseAnalyzer {
                         writeError(AfterEach.class, method, clazz);
                         return null; ///
                     }
-                    afterEachMethods.add(new SingleTest(clazz, method));
+                    afterEachMethods.add(new SingleTest(method));
                 } else if (method.isAnnotationPresent(SetUp.class)) {
 
                     if (hasParameters(method)) {
                         writeError(SetUp.class, method, clazz);
                         return null; ///
                     }
-                    this.setUpMethods.add(new SingleTest(clazz, method));
+                    this.setUpMethods.add(new SingleTest(method));
                 } else if (method.isAnnotationPresent(TearDown.class)) {
 
                     if (hasParameters(method)) {
                         writeError(TearDown.class, method, clazz);
                         return null; ///
                     }
-                    this.tearDownMethods.add(new SingleTest(clazz, method));
+                    this.tearDownMethods.add(new SingleTest(method));
                 } else if (method.isAnnotationPresent(Ignore.class)) {
-                    singleTestMethods.add(new SingleTest(clazz, method));
+                    singleTestMethods.add(new SingleTest(method));
                 }
             }
         }

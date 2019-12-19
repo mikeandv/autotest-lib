@@ -11,13 +11,11 @@ import java.lang.reflect.Modifier;
  * Класс описывающий единичный тест
  */
 public class SingleTest {
-    private Class<?> clazz;
     private Method method;
     private Statuses status;
     private String message = "";
 
-    public SingleTest(Class<?> clazz, Method m) {
-        this.clazz = clazz;
+    public SingleTest(Method m) {
         this.method = m;
     }
 
@@ -52,9 +50,10 @@ public class SingleTest {
      * проверка утверждений Assert была корректна и не было брошено исключение
      * <tt>false<tt/> во всех остальных сулучаях.
      */
-    public boolean runTest() {
+    public boolean runTest(Object obj) {
 
         boolean result;
+
         if (method.isAnnotationPresent(Ignore.class)) {
             this.status = Statuses.IGNORE;
             result = true;
@@ -102,7 +101,7 @@ public class SingleTest {
         } else {
 
             try {
-                methodInvoke();
+                methodInvoke(obj);
                 this.status = Statuses.PASSED;
                 result = true;
 
@@ -130,11 +129,11 @@ public class SingleTest {
      * @throws IllegalAccessException
      * @throws InstantiationException
      */
-    private void methodInvoke() throws InvocationTargetException, IllegalAccessException, InstantiationException {
+    private void methodInvoke(Object obj) throws InvocationTargetException, IllegalAccessException, InstantiationException {
         if (Modifier.isStatic(method.getModifiers())) {
             this.method.invoke(null);
         } else {
-            this.method.invoke(clazz.newInstance());
+            this.method.invoke(obj);
         }
     }
 }
