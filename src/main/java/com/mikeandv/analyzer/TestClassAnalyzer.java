@@ -63,7 +63,10 @@ public class TestClassAnalyzer {
         for (Class clazz : classes) {
 
             TestClass annotation = (TestClass) clazz.getAnnotation(TestClass.class);
-            TestSuit testSuit = new TestSuit(annotation.testSuit());
+
+            //Правки по замечанию №5
+            String testSuitName = annotation.testSuit().isEmpty() ? clazz.getSimpleName() : annotation.testSuit();
+            TestSuit testSuit = new TestSuit(testSuitName, clazz);
 
             Constructor[] constructors =  clazz.getConstructors();
             boolean hasPublicConstructor = false;

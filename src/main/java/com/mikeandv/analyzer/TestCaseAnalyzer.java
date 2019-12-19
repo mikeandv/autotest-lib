@@ -103,7 +103,10 @@ public class TestCaseAnalyzer {
 
         for (SingleTest t : singleTestMethods) {
             Test test = t.getMethod().getAnnotation(Test.class);
-            TestCase testCase = new TestCase(test.testName());
+
+            //Правки по замечанию №5
+            String testName = test.testName().isEmpty() ? t.getMethod().getName() : test.testName();
+            TestCase testCase = new TestCase(testName);
 
             if (!beforeEachMethods.isEmpty()) {
                 testCase.addBeforeEach(beforeEachMethods);
