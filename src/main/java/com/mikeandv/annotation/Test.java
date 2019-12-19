@@ -8,6 +8,6 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
 public @interface Test {
-    String testName();
+    String testName() default "";
     Class<? extends Throwable> expected() default Throwable.class;
 }
