@@ -62,7 +62,7 @@ public class TestCaseAnalyzer {
 
                     if (hasParameters(method)) {
                         writeError(BeforeEach.class, method, clazz);
-                        return null; ///
+                        return null;
                     }
                     beforeEachMethods.add(new SingleTest(method));
 
@@ -70,7 +70,7 @@ public class TestCaseAnalyzer {
 
                     if (hasParameters(method)) {
                         writeError(Test.class, method, clazz);
-                        return null; ///
+                        return null;
                     }
                     singleTestMethods.add(new SingleTest(method));
 
@@ -78,21 +78,21 @@ public class TestCaseAnalyzer {
 
                     if (hasParameters(method)) {
                         writeError(AfterEach.class, method, clazz);
-                        return null; ///
+                        return null;
                     }
                     afterEachMethods.add(new SingleTest(method));
                 } else if (method.isAnnotationPresent(SetUp.class)) {
 
                     if (hasParameters(method)) {
                         writeError(SetUp.class, method, clazz);
-                        return null; ///
+                        return null;
                     }
                     this.setUpMethods.add(new SingleTest(method));
                 } else if (method.isAnnotationPresent(TearDown.class)) {
 
                     if (hasParameters(method)) {
                         writeError(TearDown.class, method, clazz);
-                        return null; ///
+                        return null;
                     }
                     this.tearDownMethods.add(new SingleTest(method));
                 } else if (method.isAnnotationPresent(Ignore.class)) {
@@ -126,7 +126,7 @@ public class TestCaseAnalyzer {
 
     /**
      * Выполняет проверку на наличе у метода параметров
-     * @param method
+     * @param method по которому выполняется проверка на количество параметров
      * @return <tt>true</tt> метод имеет параметы <tt>false</tt> метод без параметров
      */
     private static boolean hasParameters(Method method) {
@@ -135,7 +135,7 @@ public class TestCaseAnalyzer {
 
     /**
      * Выполняет запись и сборку сообщения об ошибке
-     * @param annotation
+     * @param annotation аннотация по данным которой формируется сообщеие
      * @param m метод по данным которого необходимо сформировтаь сообщение
      * @param cl класс по данным которого необходимо сформировть сообщение
      */

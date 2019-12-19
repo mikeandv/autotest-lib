@@ -61,7 +61,7 @@ public class SingleTest {
         } else if (method.isAnnotationPresent(Test.class)) {
 
             com.mikeandv.annotation.Test annotation = method.getAnnotation(Test.class);
-            Class expected = annotation.expected();
+            Class<?> expected = annotation.expected();
 
             try {
                 methodInvoke(obj);

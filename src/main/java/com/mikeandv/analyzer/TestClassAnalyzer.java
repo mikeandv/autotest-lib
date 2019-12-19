@@ -60,7 +60,7 @@ public class TestClassAnalyzer {
 
         List<TestSuit> testSuits = new ArrayList<>();
 
-        for (Class clazz : classes) {
+        for (Class<?> clazz : classes) {
 
             TestClass annotation = (TestClass) clazz.getAnnotation(TestClass.class);
 
@@ -71,8 +71,8 @@ public class TestClassAnalyzer {
             Constructor[] constructors =  clazz.getConstructors();
             boolean hasPublicConstructor = false;
 
-            for (int i = 0; i < constructors.length; i++) {
-                if (Modifier.isPublic(constructors[i].getModifiers()) && constructors[i].getParameterCount() == 0) {
+            for (Constructor constructor : constructors) {
+                if (Modifier.isPublic(constructor.getModifiers()) && constructor.getParameterCount() == 0) {
                     hasPublicConstructor = true;
                 }
             }
@@ -83,7 +83,7 @@ public class TestClassAnalyzer {
             }
 
 
-            //вызов для обратобки тест-кейсов
+            //Вызов для обратобки тест-кейсов
             TestCaseAnalyzer ga = new TestCaseAnalyzer();
             List<TestCase> testCases = ga.analyze(clazz);
 
